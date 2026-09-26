@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SenGo Covoiturage : Sénégal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F5F7; --card:#FFFFFF; --ink:#1C3961; --ink2:#0F2840; --muted:#5A6472; --line:#E1E4E9;
+  --pink:#E2004B; --pink-soft:#FEE2E2; --green:#1C7A4A; --green-soft:#DCFCE7; --amber:#B45309; --amber-soft:#FEF3C7; --red:#C8102E; --red-soft:#FEE2E2;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1620; --card:#182233; --ink:#EAF0F7; --ink2:#C9D4E2; --muted:#94A3B8; --line:#2A3547;
+    --pink:#FF3D77; --pink-soft:#3A1428; --green:#34D399; --green-soft:#123424; --amber:#FBBF24; --amber-soft:#3A2E0F; --red:#F87171; --red-soft:#3A1418;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1620; --card:#182233; --ink:#EAF0F7; --ink2:#C9D4E2; --muted:#94A3B8; --line:#2A3547;
+  --pink:#FF3D77; --pink-soft:#3A1428; --green:#34D399; --green-soft:#123424; --amber:#FBBF24; --amber-soft:#3A2E0F; --red:#F87171; --red-soft:#3A1418;
+}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px 48px}
+
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:0 -16px 0;padding:22px 28px calc(22px + env(safe-area-inset-top,0px));background:linear-gradient(120deg, var(--ink2), var(--ink) 60%);border-bottom:4px solid var(--pink)}
+.brand{display:flex;align-items:center;gap:14px}
+.flag{border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.3);flex-shrink:0}
+h1{font-size:1.7rem;line-height:1.1;margin:0;font-weight:800;letter-spacing:-.01em;color:#fff}
+.sub{color:#C9D4E2;font-size:.88rem;margin:3px 0 0;text-transform:uppercase;letter-spacing:.4px}
+
+/* Selecteur de role : la porte d'entree */
+#roleSwitch{display:flex;gap:0;margin:0 -16px 22px;background:var(--ink2)}
+#roleSwitch button{flex:1;border:0;background:transparent;color:#C9D4E2;font:inherit;font-weight:700;font-size:.95rem;padding:14px;cursor:pointer;border-bottom:3px solid transparent;transition:background .15s,color .15s}
+#roleSwitch button:hover{background:rgba(255,255,255,.06);color:#fff}
+#roleSwitch button.active{background:var(--paper);color:var(--ink);border-bottom-color:var(--pink)}
+
+nav{display:flex;gap:4px;background:rgba(0,0,0,.15);border-radius:12px;padding:4px;overflow-x:auto;margin-top:16px}
+nav button{border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;font-size:.9rem;padding:9px 16px;border-radius:9px;cursor:pointer;white-space:nowrap}
+nav button[aria-selected="true"]{background:var(--pink);color:#fff}
+.view[hidden]{display:none}
+section[hidden]{display:none}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;margin-top:20px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}h1{font-size:1.4rem}header{padding:18px 20px calc(18px + env(safe-area-inset-top,0px))}}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:0 2px 10px rgba(15,40,64,.06);margin-top:20px}
+.grid .panel{margin-top:0}
+h2{font-size:1.05rem;margin:0 0 14px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid var(--pink);padding-bottom:9px}
+label{display:block;font-size:.85rem;font-weight:700;color:var(--muted);margin:12px 0 5px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:9px;padding:10px 12px}
+input:focus,select:focus,textarea:focus{border-color:var(--pink);outline:none}
+textarea{resize:vertical;min-height:70px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media (max-width:600px){.row3{grid-template-columns:1fr}}
+.check{display:flex;align-items:center;gap:8px;margin-top:14px;font-weight:600;font-size:.92rem}
+.check input{width:auto}
+.hint{font-size:.8rem;color:var(--muted);margin:5px 0 0}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-weight:700;font-size:.92rem;border-radius:10px;padding:11px 18px;border:1.5px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.wa{background:#1FA855;border-color:#1FA855;color:#fff}
+.btn.small{padding:7px 12px;font-size:.82rem;border-radius:8px}
+.btn.pink{background:var(--pink);border-color:var(--pink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* Cartes trajet cote passager */
+.trajetCard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px;box-shadow:0 2px 10px rgba(15,40,64,.06)}
+.trajetCard .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.trajetCard .route{font-size:1.15rem;font-weight:800;color:var(--ink)}
+.trajetCard .prix{font-size:1.3rem;font-weight:800;color:var(--pink)}
+.trajetCard .meta{color:var(--muted);font-size:.88rem;margin-top:4px}
+.trajetCard .places{margin-top:10px;display:flex;align-items:center;gap:8px;font-size:.88rem}
+.barre{width:80px;height:8px;background:var(--line);border-radius:4px;overflow:hidden;flex-shrink:0}
+.barre span{display:block;height:100%;background:var(--pink)}
+
+.ticket{position:relative;background:linear-gradient(135deg, var(--ink2), var(--ink));border-radius:14px;padding:22px 22px 18px;color:#fff;box-shadow:0 6px 20px rgba(15,40,64,.25)}
+.ticket::before,.ticket::after{content:"";position:absolute;top:50%;width:22px;height:22px;background:var(--paper);border-radius:50%;transform:translateY(-50%)}
+.ticket::before{left:-11px}.ticket::after{right:-11px}
+.ref{font-size:1.7rem;font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0;color:var(--pink)}
+.route2{font-weight:600;color:#C9D4E2;margin:3px 0 14px;font-size:.95rem}
+.placesInfo{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.placeBadge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:8px 14px;font-size:.85rem}
+.placeBadge b{display:block;font-size:1.3rem;color:var(--pink)}
+.msgtype{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.msgtype button{font:inherit;font-size:.82rem;font-weight:700;border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:999px;padding:6px 14px;cursor:pointer}
+.msgtype button[aria-pressed="true"]{background:var(--pink);border-color:var(--pink)}
+.msg{white-space:pre-wrap;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:16px;font-size:.92rem;line-height:1.55;max-height:380px;overflow:auto;color:#EAF0F7}
+.ticket .btn.ghost{border-color:rgba(255,255,255,.4);color:#fff}
+
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;margin-top:20px}
+.toolbar input{flex:1 1 180px}.toolbar select{flex:0 1 170px;width:auto}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:0 2px 10px rgba(15,40,64,.06)}
+table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:760px}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:.75rem;color:#fff;font-weight:700;background:var(--ink);text-transform:uppercase}
+tr:hover td{background:var(--pink-soft)}
+.chip{display:inline-block;font-size:.76rem;font-weight:700;padding:4px 11px;border-radius:999px;white-space:nowrap}
+.s-ouvert{background:var(--green-soft);color:var(--green)}
+.s-complet{background:var(--amber-soft);color:var(--amber)}
+.s-termine{background:var(--paper);color:var(--muted);border:1px solid var(--line)}
+.s-annule{background:var(--red-soft);color:var(--red)}
+.empty{padding:36px;text-align:center;color:var(--muted)}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px;margin-top:20px}
+.stat{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ink);border-radius:12px;padding:16px 18px;box-shadow:0 2px 10px rgba(15,40,64,.06)}
+.stat b{display:block;font-size:1.6rem;font-weight:800;line-height:1.2;color:var(--ink)}
+.stat span{color:var(--muted);font-size:.85rem}
+.stat.alert{border-left-color:var(--red)}
+.stat.alert b{color:var(--red)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 20px;border-radius:10px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;box-shadow:0 6px 20px rgba(0,0,0,.3);z-index:200}
+.toast.show{opacity:1}
+
+.facture-overlay{position:fixed;inset:0;background:rgba(15,22,32,.65);z-index:100;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:30px 16px}
+.facture-overlay[hidden]{display:none}
+.facture-box{background:#fff;color:#1A1A1A;max-width:560px;width:100%;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden}
+.facture-actions{display:flex;gap:10px;flex-wrap:wrap;padding:14px 20px;background:var(--paper);border-bottom:1px solid var(--line)}
+.facture-doc{padding:30px 32px}
+.facture-head{border-bottom:3px solid var(--ink);padding-bottom:16px;margin-bottom:18px}
+.facture-head h2{border:0;padding:0;margin:0;font-size:1.3rem;color:var(--ink)}
+.facture-statut{display:inline-block;margin-top:14px;padding:6px 14px;border-radius:8px;font-weight:700;font-size:.85rem;background:var(--green-soft);color:var(--green)}
+
+/* Connexion identite simple */
+#identOverlay{position:fixed;inset:0;background:rgba(15,22,32,.75);z-index:150;display:flex;align-items:center;justify-content:center;padding:16px}
+#identOverlay[hidden]{display:none}
+#identBox{background:var(--card);border-radius:16px;padding:28px 26px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+#identBox h2{border:0;padding:0}
+#syncBadge{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:5px 11px;border-radius:999px;font-weight:700}
+#syncBadge.ok{background:var(--green-soft);color:var(--green)}
+#syncBadge.off{background:var(--amber-soft);color:var(--amber)}
+</style>
+</head>
+<body>
+
+<div id="identOverlay">
+  <div id="identBox">
+    <h2>Bienvenue sur SenGo</h2>
+    <p class="hint">Entrez votre nom et votre numéro pour continuer. C'est ce qui identifie vos trajets ou vos réservations.</p>
+    <label for="i-nom">Votre nom</label><input id="i-nom" placeholder="Fatou Sarr">
+    <label for="i-tel">Votre téléphone (WhatsApp)</label><input id="i-tel" inputmode="tel" placeholder="77 123 45 67">
+    <div class="actions"><button class="btn pink" id="identValider" style="width:100%">Continuer</button></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg class="flag" aria-hidden="true" viewBox="0 0 300 200" width="40" height="27">
+        <rect width="100" height="200" fill="#00853F"/><rect x="100" width="100" height="200" fill="#FDEF42"/><rect x="200" width="100" height="200" fill="#E31B23"/>
+        <polygon points="150,70 161,104 197,104 168,125 179,159 150,138 121,159 132,125 103,104 139,104" fill="#00853F"/>
+      </svg>
+      <div><h1>SenGo Covoiturage</h1><p class="sub">Trajets partagés au Sénégal</p></div>
+    </div>
+    <span id="syncBadge" class="off">● hors ligne</span>
+  </header>
+
+  <div id="roleSwitch">
+    <button data-role="chauffeur" class="active">🚗 Espace Chauffeur</button>
+    <button data-role="passager">🧍 Espace Passager</button>
+  </div>
+
+  <!-- ================= VUE CHAUFFEUR ================= -->
+  <div class="view" id="view-chauffeur">
+    <nav role="tablist" aria-label="Sections chauffeur">
+      <button role="tab" data-tab="nouveau" aria-selected="true">Publier un trajet</button>
+      <button role="tab" data-tab="mestrajets" aria-selected="false">Mes trajets <span id="countBadge"></span></button>
+      <button role="tab" data-tab="bilan" aria-selected="false">Bilan</button>
+    </nav>
+
+    <section id="tab-nouveau">
+      <div class="grid">
+        <form class="panel" id="form" autocomplete="off">
+          <h2 id="formTitle">Publier un trajet</h2>
+          <div class="row">
+            <div><label for="f-depart">Ville de départ</label><input id="f-depart" list="villes" value="Dakar"></div>
+            <div><label for="f-arrivee">Ville d'arrivée</label><input id="f-arrivee" list="villes" placeholder="Thiès"></div>
+          </div>
+          <datalist id="villes"></datalist>
+          <div class="row">
+            <div><label for="f-date">Date du trajet</label><input id="f-date" type="date"></div>
+            <div><label for="f-heure">Heure de départ</label><input id="f-heure" type="time" value="08:00"></div>
+          </div>
+          <div class="row3">
+            <div><label for="f-places">Places disponibles</label><input id="f-places" type="number" min="1" step="1" value="3"></div>
+            <div><label for="f-prix">Prix par place (FCFA)</label><input id="f-prix" type="number" min="0" step="500" placeholder="3000"></div>
+            <div><label for="f-vehicule">Véhicule</label><input id="f-vehicule" placeholder="Berline, 7 places…"></div>
+          </div>
+          <label for="f-notes">Note pour les passagers</label>
+          <textarea id="f-notes" placeholder="Point de départ précis, bagages autorisés…"></textarea>
+          <label class="check"><input type="checkbox" id="f-clim"> Climatisation</label>
+          <div class="actions">
+            <button class="btn pink" type="submit" id="saveBtn">Publier le trajet</button>
+            <button class="btn ghost" type="button" id="resetBtn">Vider le formulaire</button>
+          </div>
+        </form>
+        <div>
+          <div class="ticket" aria-live="polite">
+            <p class="ref" id="tRef">SNG-...</p>
+            <p class="route2" id="tRoute">Dakar → …</p>
+            <div class="placesInfo">
+              <div class="placeBadge"><b id="tPlaces">3</b>places libres</div>
+              <div class="placeBadge"><b id="tPrix">-</b>par place</div>
+            </div>
+            <div class="msgtype" role="group">
+              <button type="button" data-msg="annonce" aria-pressed="true">Annonce</button>
+              <button type="button" data-msg="confirmation" aria-pressed="false">Confirmation résa</button>
+              <button type="button" data-msg="rappel" aria-pressed="false">Rappel</button>
+            </div>
+            <div class="msg" id="msg"></div>
+            <div class="actions">
+              <a class="btn wa" id="waBtn" href="#" target="_blank" rel="noopener">Envoyer sur WhatsApp</a>
+              <button class="btn ghost" type="button" id="copyBtn">Copier le message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-mestrajets" hidden>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Rechercher une ville, une référence…">
+        <select id="filter">
+          <option value="">Tous les trajets</option>
+          <option value="ouvert">Places disponibles</option>
+          <option value="complet">Complets</option>
+          <option value="termine">Terminés</option>
+          <option value="annule">Annulés</option>
+        </select>
+      </div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Réf.</th><th>Trajet</th><th>Date</th><th>Places</th><th>Prix</th><th>Statut</th><th></th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table></div>
+    </section>
+
+    <section id="tab-bilan" hidden>
+      <div class="stats" id="stats"></div>
+    </section>
+  </div>
+
+  <!-- ================= VUE PASSAGER ================= -->
+  <div class="view" id="view-passager" hidden>
+    <div class="toolbar" style="margin-top:20px">
+      <input id="p-depart" list="villes" placeholder="Ville de départ">
+      <input id="p-arrivee" list="villes" placeholder="Ville d'arrivée">
+      <input id="p-date" type="date">
+      <button class="btn pink small" id="p-rechercher">Rechercher</button>
+      <button class="btn ghost small" id="p-reset">Réinitialiser</button>
+    </div>
+    <div id="p-resultats"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<div id="factureOverlay" class="facture-overlay" hidden>
+  <div class="facture-box">
+    <div class="facture-actions no-print">
+      <button class="btn ghost small" id="factureFermer" type="button">✕ Fermer</button>
+      <button class="btn small" id="facturePrint" type="button">🖨️ Imprimer / PDF</button>
+      <a class="btn wa small" id="factureWa" href="#" target="_blank" rel="noopener">Envoyer sur WhatsApp</a>
+    </div>
+    <div id="factureContenu"></div>
+  </div>
+</div>
+
+<!-- ============ FIREBASE (chargement standard, robuste en file://) ============ -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js" defer></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js" defer></script>
+<script>
+window.__firebaseReady = false;
+window.__firebaseFailed = false;
+const firebaseConfig = {
+  apiKey: "AIzaSyBheswoax7BIZGf7XzW4jDrMMwaJu9aPAs",
+  authDomain: "convoiturage-sengp.firebaseapp.com",
+  projectId: "convoiturage-sengp",
+  storageBucket: "convoiturage-sengp.firebasestorage.app",
+  messagingSenderId: "1059404008615",
+  appId: "1:1059404008615:web:762c77057c8f931d725f82"
+};
+function tenterInitFirebase(){
+  if(typeof firebase === "undefined" || !firebase.firestore){ return false; }
+  try{
+    firebase.initializeApp(firebaseConfig);
+    window.__db = firebase.firestore();
+    window.__firebaseReady = true;
+    window.dispatchEvent(new Event("firebase-statut-connu"));
+    return true;
+  }catch(e){ console.warn("Erreur initialisation Firebase.", e); return false; }
+}
+// Comme les scripts sont en "defer", on verifie regulierement (toutes les 200ms) qu'ils sont bien arrives, jusqu'a 5s max
+let __essais = 0;
+const __minuteur = setInterval(()=>{
+  __essais++;
+  if(tenterInitFirebase()){ clearInterval(__minuteur); }
+  else if(__essais>=25){ // 5s ecoules
+    clearInterval(__minuteur);
+    window.__firebaseFailed = true;
+    console.warn("Firebase indisponible apres 5s, mode local uniquement.");
+    window.dispatchEvent(new Event("firebase-statut-connu"));
+  }
+}, 200);
+</script>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const STATUTS = {ouvert:"Places disponibles", complet:"Complet", termine:"Terminé", annule:"Annulé"};
+  const VILLES = ["Dakar","Thiès","Touba","Saint-Louis","Mbour","Saly","Rufisque","Bargny","Diamniadio","Ziguinchor","Kaolack","Diourbel","Louga","Kolda","Tambacounda","Fatick","Kédougou","Matam","Sédhiou","Kaffrine","Podor","Richard-Toll","Joal-Fadiouth"];
+  $("#villes") && ($("#villes").innerHTML = VILLES.map(v=>'<option value="'+v+'">').join(""));
+
+  function loadLocal(key, fallback){ try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; } }
+  function saveLocal(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
+  function toast(t){ const el=$("#toast"); el.textContent=t; el.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove("show"),2200); }
+  const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const fmt = n => (n===""||n==null||isNaN(n)) ? "-" : Number(n).toLocaleString("fr-FR")+" FCFA";
+  function normPhone(raw){
+    let d = (raw||"").replace(/[^\d+]/g,"");
+    if(d.startsWith("+")) return d.slice(1);
+    if(d.startsWith("00")) return d.slice(2);
+    if(/^7\d{8}$/.test(d)) return "221"+d;
+    if(/^0[67]\d{8}$/.test(d)) return "33"+d.slice(1);
+    return d;
+  }
+  function placesLibres(t){ return Math.max(0, Number(t.places)-Number(t.reservees||0)); }
+  function statutAuto(t){ if(t.statutManuel==="annule") return "annule"; if(t.statutManuel==="termine") return "termine"; return placesLibres(t)<=0 ? "complet" : "ouvert"; }
+
+  // ---------- identite (chauffeur ou passager, la meme personne peut etre les deux) ----------
+  let identite = loadLocal("sengo_identite", null);
+  function ouvrirIdent(){
+    if(identite){ $("#identOverlay").hidden = true; return; }
+    $("#identOverlay").hidden = false;
+  }
+  $("#identValider").addEventListener("click", ()=>{
+    const nom = $("#i-nom").value.trim(), tel = $("#i-tel").value.trim();
+    if(!nom){ toast("Indiquez votre nom"); return; }
+    identite = {nom, tel};
+    saveLocal("sengo_identite", identite); $("#identOverlay").hidden = true; if(typeof trajetsChanged === "function") trajetsChanged();
+  });
+  ouvrirIdent();
+
+  // ---------- source de donnees : Firestore si configure, sinon localStorage ----------
+  let trajets = [];
+  const COL = "trajets_sengo";
+  let db = null, firebaseOK = false;
+
+  function trajetsChanged(){
+    renderMesTrajets(); renderStats(); renderRecherchePassager();
+  }
+  function demarrerDonnees(){
+    if(firebaseOK){
+      $("#syncBadge").className = "ok"; $("#syncBadge").textContent = "● synchronisé";
+      db.collection(COL).onSnapshot(snap=>{
+        trajets = snap.docs.map(d=>Object.assign({id:d.id}, d.data()));
+        trajetsChanged();
+      }, err=>{ console.error(err); toast("Erreur de synchronisation"); });
+    }else{
+      $("#syncBadge").className = "off"; $("#syncBadge").textContent = "● local uniquement";
+      trajets = loadLocal("sengo_trajets_v2", []);
+      trajetsChanged();
+    }
+  }
+  // Demarrage immediat en mode local, le temps de savoir si Firebase repond
+  $("#syncBadge").className = "off"; $("#syncBadge").textContent = "● connexion en cours…";
+  trajets = loadLocal("sengo_trajets_v2", []);
+  trajetsChanged();
+  window.addEventListener("firebase-statut-connu", ()=>{
+    if(window.__firebaseReady){ db = window.__db; firebaseOK = true; }
+    demarrerDonnees();
+  });
+  // Filet de securite : si l'evenement tarde vraiment trop, ne pas rester bloque sur "connexion en cours"
+  setTimeout(()=>{ if($("#syncBadge").textContent.includes("cours")) demarrerDonnees(); }, 4500);
+  function persist(){ if(!firebaseOK) saveLocal("sengo_trajets_v2", trajets); }
+
+  async function creerTrajet(t){
+    if(firebaseOK){
+      await db.collection(COL).add(t);
+    }else{
+      t.id = Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+      trajets.unshift(t); persist(); trajetsChanged();
+    }
+  }
+  async function majTrajet(id, patch){
+    if(firebaseOK){
+      await db.collection(COL).doc(id).update(patch);
+    }else{
+      const t = trajets.find(x=>x.id===id); if(t) Object.assign(t, patch);
+      persist(); trajetsChanged();
+    }
+  }
+  async function supprimerTrajet(id){
+    if(firebaseOK){ await db.collection(COL).doc(id).delete(); }
+    else{ trajets = trajets.filter(x=>x.id!==id); persist(); trajetsChanged(); }
+  }
+  // Reservation atomique (transaction) pour eviter que 2 passagers prennent la meme derniere place en meme temps
+  async function reserverPlace(id, nbPlaces, passagerInfo){
+    if(firebaseOK){
+      const ref = db.collection(COL).doc(id);
+      return db.runTransaction(async tx=>{
+        const doc = await tx.get(ref);
+        const t = doc.data();
+        const libres = Number(t.places)-Number(t.reservees||0);
+        if(libres < nbPlaces) throw new Error("PLUS_ASSEZ_DE_PLACES");
+        const passagers = t.passagers||[];
+        passagers.push(Object.assign({nb:nbPlaces, date:new Date().toISOString()}, passagerInfo));
+        tx.update(ref, {reservees:(Number(t.reservees||0)+nbPlaces), passagers});
+      });
+    }else{
+      const t = trajets.find(x=>x.id===id);
+      if(!t) throw new Error("INTROUVABLE");
+      const libres = placesLibres(t);
+      if(libres < nbPlaces) throw new Error("PLUS_ASSEZ_DE_PLACES");
+      t.reservees = Number(t.reservees||0)+nbPlaces;
+      t.passagers = t.passagers||[]; t.passagers.push(Object.assign({nb:nbPlaces, date:new Date().toISOString()}, passagerInfo));
+      persist(); trajetsChanged();
+    }
+  }
+
+  // ---------- bascule de role ----------
+  $$("#roleSwitch button").forEach(b=>b.addEventListener("click", ()=>{
+    $$("#roleSwitch button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    const role = b.dataset.role;
+    $("#view-chauffeur").hidden = role!=="chauffeur";
+    $("#view-passager").hidden = role!=="passager";
+    if(role==="passager") renderRecherchePassager();
+  }));
+
+  // ================= COTE CHAUFFEUR =================
+  let editingId = null, msgType = "annonce";
+  function newRef(){
+    const d = new Date(); const ymd = String(d.getFullYear()).slice(2)+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+    const sameDay = trajets.filter(t=>(t.ref||"").startsWith("SNG-"+ymd)).length;
+    return "SNG-"+ymd+"-"+String(sameDay+1).padStart(2,"0");
+  }
+  function readForm(){
+    return {
+      chauffeur: identite?identite.nom:"", phone: identite?identite.tel:"",
+      depart: $("#f-depart").value.trim(), arrivee: $("#f-arrivee").value.trim(),
+      date: $("#f-date").value, heure: $("#f-heure").value,
+      places: Number($("#f-places").value)||1, prix: Number($("#f-prix").value)||0, vehicule: $("#f-vehicule").value.trim(),
+      notes: $("#f-notes").value.trim(), clim: $("#f-clim").checked
+    };
+  }
+  function buildMessage(t, ref){
+    const dateAff = t.date ? new Date(t.date).toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}) : "date à confirmer";
+    const bonjour = "Bonjour,";
+    const ligneTrajet = "🚗 Trajet : "+(t.depart||"-")+" → "+(t.arrivee||"-");
+    const ligneDate = "📅 "+dateAff+(t.date && t.heure?" à "+t.heure:"");
+    const lignePlaces = "💺 Places disponibles : "+placesLibres(t)+"/"+(t.places||"-");
+    const lignePrix = t.prix ? "💰 Prix : "+fmt(t.prix)+" par place" : null;
+    const ligneVehicule = t.vehicule ? "🚘 Véhicule : "+t.vehicule+(t.clim?" (climatisé)":"") : null;
+    const ligneNotes = t.notes ? "ℹ️ "+t.notes : null;
+    const ref2 = "📋 Référence : *"+ref+"*";
+    const contact = "📞 Chauffeur : "+(t.chauffeur||"-")+(t.phone?" · "+t.phone:"");
+    const nom = "SenGo Covoiturage";
+    if(msgType==="confirmation") return [bonjour,"","Votre réservation est confirmée ✅",ref2,ligneTrajet,ligneDate,lignePlaces,lignePrix,ligneVehicule,"","Merci de vous présenter 10 minutes avant le départ.",contact,"",nom].filter(l=>l!==null).join("\n");
+    if(msgType==="rappel") return [bonjour,"","Petit rappel : votre trajet est prévu bientôt.",ref2,ligneTrajet,ligneDate,lignePrix,"",contact,"",nom].filter(l=>l!==null).join("\n");
+    return [bonjour,"","Un trajet est disponible :",ref2,ligneTrajet,ligneDate,lignePlaces,lignePrix,ligneVehicule,ligneNotes,"","Réservez votre place dès maintenant !",contact,"",nom].filter(l=>l!==null).join("\n");
+  }
+  function currentRef(){ return editingId ? (trajets.find(x=>x.id===editingId)||{}).ref : newRef(); }
+  function renderPreview(){
+    const t = readForm(), ref = currentRef();
+    $("#tRef").textContent = ref;
+    $("#tRoute").textContent = (t.depart||"…")+" → "+(t.arrivee||"…");
+    $("#tPlaces").textContent = t.places||"-";
+    $("#tPrix").textContent = t.prix ? fmt(t.prix) : "-";
+    const text = buildMessage(t, ref);
+    $("#msg").textContent = text;
+    $("#waBtn").href = "https://wa.me/"+(normPhone(t.phone)||"")+"?text="+encodeURIComponent(text);
+  }
+  function resetForm(){
+    $("#form").reset(); editingId=null;
+    $("#f-depart").value="Dakar"; $("#f-places").value=3;
+    $("#formTitle").textContent="Publier un trajet"; $("#saveBtn").textContent="Publier le trajet";
+    renderPreview();
+  }
+  $("#form").addEventListener("input", renderPreview);
+  $("#form").addEventListener("change", renderPreview);
+  $("#resetBtn").addEventListener("click", resetForm);
+  $("#form").addEventListener("submit", async e=>{
+    e.preventDefault();
+    if(!identite){ ouvrirIdent(); return; }
+    const t = readForm();
+    if(!t.arrivee){ toast("Indiquez la ville d'arrivée"); $("#f-arrivee").focus(); return; }
+    if(editingId){
+      await majTrajet(editingId, t);
+      toast("Trajet modifié");
+    }else{
+      const ref = newRef();
+      await creerTrajet(Object.assign({ref, date_creation:new Date().toISOString(), reservees:0, statutManuel:null, passagers:[]}, t));
+      toast("Trajet "+ref+" publié");
+    }
+    resetForm();
+  });
+  $$(".msgtype button").forEach(b=>b.addEventListener("click", ()=>{
+    msgType=b.dataset.msg; $$(".msgtype button").forEach(x=>x.setAttribute("aria-pressed", String(x===b))); renderPreview();
+  }));
+  $("#copyBtn").addEventListener("click", async ()=>{
+    try{ await navigator.clipboard.writeText($("#msg").textContent); toast("Message copié"); }catch(e){}
+  });
+
+  function renderMesTrajets(){
+    const mesRefs = identite ? trajets.filter(t=>t.chauffeur===identite.nom) : trajets;
+    const q = ($("#search")?.value||"").toLowerCase().trim(), f = $("#filter")?.value||"";
+    const rows = mesRefs.filter(t=>{
+      if(f && statutAuto(t)!==f) return false;
+      if(!q) return true;
+      return [t.ref,t.depart,t.arrivee].join(" ").toLowerCase().includes(q);
+    });
+    $("#countBadge") && ($("#countBadge").textContent = mesRefs.length?"("+mesRefs.length+")":"");
+    if(!$("#tbody")) return;
+    if(!rows.length){ $("#tbody").innerHTML = '<tr><td colspan="7" class="empty">Aucun trajet.</td></tr>'; return; }
+    $("#tbody").innerHTML = rows.map(t=>{
+      const st = statutAuto(t), libres = placesLibres(t);
+      return '<tr data-id="'+t.id+'">'+
+        '<td><b>'+esc(t.ref)+'</b></td>'+
+        '<td>'+esc(t.depart)+' → '+esc(t.arrivee)+'</td>'+
+        '<td>'+(t.date?new Date(t.date).toLocaleDateString("fr-FR"):"-")+'</td>'+
+        '<td>'+libres+'/'+t.places+'</td>'+
+        '<td>'+fmt(t.prix)+'</td>'+
+        '<td><span class="chip s-'+st+'">'+STATUTS[st]+'</span></td>'+
+        '<td style="white-space:nowrap"><button class="btn small ghost" data-act="del">✕</button></td>'+
+      '</tr>';
+    }).join("");
+  }
+  $("#search")?.addEventListener("input", renderMesTrajets);
+  $("#filter")?.addEventListener("change", renderMesTrajets);
+  $("#tbody")?.addEventListener("click", async e=>{
+    const btn = e.target.closest("button"); if(!btn) return;
+    const id = btn.closest("tr").dataset.id;
+    if(btn.dataset.act==="del" && confirm("Supprimer ce trajet ?")){ await supprimerTrajet(id); toast("Trajet supprimé"); }
+  });
+
+  function renderStats(){
+    if(!$("#stats")) return;
+    const mesTrajets = identite ? trajets.filter(t=>t.chauffeur===identite.nom) : trajets;
+    const totalPlaces = mesTrajets.reduce((s,t)=>s+(Number(t.places)||0),0);
+    const totalRes = mesTrajets.reduce((s,t)=>s+(Number(t.reservees)||0),0);
+    const revenu = mesTrajets.reduce((s,t)=>s+(Number(t.reservees)||0)*(Number(t.prix)||0),0);
+    const taux = totalPlaces>0 ? Math.round(totalRes/totalPlaces*100) : 0;
+    $("#stats").innerHTML = [
+      ['<b>'+mesTrajets.length+'</b><span>trajets publiés</span>',''],
+      ['<b>'+totalRes+'/'+totalPlaces+'</b><span>places réservées</span>',''],
+      ['<b>'+taux+' %</b><span>taux de remplissage</span>', taux<40?'alert':''],
+      ['<b>'+fmt(revenu)+'</b><span>revenu généré</span>','']
+    ].map(([h,c])=>'<div class="stat '+c+'">'+h+'</div>').join("");
+  }
+
+  // ================= COTE PASSAGER =================
+  function renderRecherchePassager(){
+    if(!$("#p-resultats")) return;
+    const dep = ($("#p-depart")?.value||"").toLowerCase().trim();
+    const arr = ($("#p-arrivee")?.value||"").toLowerCase().trim();
+    const date = $("#p-date")?.value||"";
+    const dispo = trajets.filter(t=>statutAuto(t)==="ouvert");
+    const rows = dispo.filter(t=>{
+      if(dep && !(t.depart||"").toLowerCase().includes(dep)) return false;
+      if(arr && !(t.arrivee||"").toLowerCase().includes(arr)) return false;
+      if(date && t.date!==date) return false;
+      return true;
+    });
+    if(!rows.length){ $("#p-resultats").innerHTML = '<div class="empty panel">Aucun trajet disponible pour le moment. Réessayez avec un autre critère.</div>'; return; }
+    $("#p-resultats").innerHTML = rows.map(t=>{
+      const libres = placesLibres(t), pct = t.places>0 ? Math.round((t.reservees||0)/t.places*100) : 0;
+      return '<div class="trajetCard" data-id="'+t.id+'">'+
+        '<div class="top"><div><div class="route">'+esc(t.depart)+' → '+esc(t.arrivee)+'</div>'+
+        '<div class="meta">'+(t.date?new Date(t.date).toLocaleDateString("fr-FR")+(t.heure?' à '+t.heure:''):"Date à confirmer")+' · Chauffeur : '+esc(t.chauffeur)+(t.vehicule?' · '+esc(t.vehicule):'')+'</div></div>'+
+        '<div class="prix">'+fmt(t.prix)+'</div></div>'+
+        '<div class="places"><div class="barre"><span style="width:'+pct+'%"></span></div>'+libres+' place'+(libres>1?'s':'')+' disponible'+(libres>1?'s':'')+'</div>'+
+        (t.notes?'<p class="hint" style="margin-top:8px">'+esc(t.notes)+'</p>':'')+
+        '<div class="actions">'+
+          '<input type="number" min="1" max="'+libres+'" value="1" class="nbPlacesInput" style="width:70px;display:inline-block;">'+
+          '<button class="btn pink small" data-act="reserver">Réserver</button>'+
+        '</div>'+
+      '</div>';
+    }).join("");
+  }
+  $("#p-rechercher")?.addEventListener("click", renderRecherchePassager);
+  $("#p-reset")?.addEventListener("click", ()=>{ $("#p-depart").value=""; $("#p-arrivee").value=""; $("#p-date").value=""; renderRecherchePassager(); });
+  $("#p-resultats")?.addEventListener("click", async e=>{
+    const btn = e.target.closest("button[data-act='reserver']"); if(!btn) return;
+    if(!identite){ ouvrirIdent(); return; }
+    const card = btn.closest(".trajetCard");
+    const id = card.dataset.id;
+    const nb = Number(card.querySelector(".nbPlacesInput").value)||1;
+    try{
+      await reserverPlace(id, nb, {nom:identite.nom, tel:identite.tel});
+      toast("Réservation confirmée !");
+      const t = trajets.find(x=>x.id===id);
+      if(t) ouvrirRecu(t, nb);
+    }catch(err){
+      if(String(err.message).includes("PLUS_ASSEZ")) toast("Il ne reste plus assez de places");
+      else toast("Erreur, réessayez");
+    }
+  });
+
+  // ================= RECU / FACTURE =================
+  function ouvrirRecu(t, nb){
+    const prixUnitaire = Number(t.prix)||0, total = prixUnitaire*nb;
+    const dateTrajet = t.date ? new Date(t.date).toLocaleDateString("fr-FR") : "-";
+    $("#factureContenu").innerHTML =
+      '<div class="facture-doc"><div class="facture-head"><h2>Reçu de réservation '+esc(t.ref)+'</h2>'+
+      '<p class="hint">Émis le '+new Date().toLocaleDateString("fr-FR")+'</p></div>'+
+      '<p><b>Trajet :</b> '+esc(t.depart)+' → '+esc(t.arrivee)+'<br>'+
+      '<b>Date :</b> '+dateTrajet+(t.heure?' à '+t.heure:'')+'<br>'+
+      '<b>Chauffeur :</b> '+esc(t.chauffeur)+(t.phone?' · '+esc(t.phone):'')+'<br>'+
+      '<b>Places réservées :</b> '+nb+'<br>'+
+      '<b>Total :</b> '+fmt(total)+'</p>'+
+      '<span class="facture-statut">Réservation enregistrée</span></div>';
+    $("#factureOverlay").hidden = false;
+    const texteWa = "🧾 Réservation confirmée - "+t.ref+"\nTrajet : "+t.depart+" → "+t.arrivee+"\nPlaces : "+nb+"\nTotal : "+fmt(total);
+    $("#factureWa").href = "https://wa.me/"+(normPhone(t.phone)||"")+"?text="+encodeURIComponent(texteWa);
+  }
+  $("#factureFermer").addEventListener("click", ()=>{ $("#factureOverlay").hidden = true; });
+  $("#factureOverlay").addEventListener("click", e=>{ if(e.target.id==="factureOverlay") $("#factureOverlay").hidden = true; });
+  $("#facturePrint").addEventListener("click", ()=> window.print());
+
+  // ---------- onglets chauffeur ----------
+  $$("#view-chauffeur nav button").forEach(b=>b.addEventListener("click", ()=>{
+    $$("#view-chauffeur nav button").forEach(x=>x.setAttribute("aria-selected", String(x===b)));
+    $$("#view-chauffeur section[id^=tab-]").forEach(s=>s.hidden = s.id!=="tab-"+b.dataset.tab);
+  }));
+
+  resetForm();
+})();
+</script>
+</body>
+</html>
+
