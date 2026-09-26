@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SGA Sen GP Agency — Colis France ⇄ Sénégal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F5F7; --card:#FFFFFF; --ink:#1C3961; --ink2:#0F2840; --muted:#5A6472; --line:#E1E4E9;
+  --pink:#E2004B; --pink-soft:#FEE2E2; --green:#1C7A4A; --green-soft:#DCFCE7; --amber:#B45309; --amber-soft:#FEF3C7; --red:#C8102E; --red-soft:#FEE2E2;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1620; --card:#182233; --ink:#EAF0F7; --ink2:#C9D4E2; --muted:#94A3B8; --line:#2A3547;
+    --pink:#FF3D77; --pink-soft:#3A1428; --green:#34D399; --green-soft:#123424; --amber:#FBBF24; --amber-soft:#3A2E0F; --red:#F87171; --red-soft:#3A1418;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1620; --card:#182233; --ink:#EAF0F7; --ink2:#C9D4E2; --muted:#94A3B8; --line:#2A3547;
+  --pink:#FF3D77; --pink-soft:#3A1428; --green:#34D399; --green-soft:#123424; --amber:#FBBF24; --amber-soft:#3A2E0F; --red:#F87171; --red-soft:#3A1418;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.5}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px 48px}
+
+/* En-tete degrade, identite forte */
+header{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  margin:0 -16px 22px;padding:22px 28px calc(22px + env(safe-area-inset-top,0px));
+  background:linear-gradient(120deg, var(--ink2), var(--ink) 60%);
+  border-bottom:4px solid var(--pink);
+}
+.brand{display:flex;align-items:center;gap:14px}
+.flag{border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.3);flex-shrink:0}
+h1{font-size:1.7rem;line-height:1.1;margin:0;font-weight:800;letter-spacing:-.01em;color:#fff}
+.sub{color:#C9D4E2;font-size:.88rem;margin:3px 0 0;text-transform:uppercase;letter-spacing:.4px}
+nav{display:flex;gap:4px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:4px;overflow-x:auto}
+nav button{border:0;background:transparent;color:#C9D4E2;font:inherit;font-weight:600;font-size:.92rem;padding:9px 16px;border-radius:9px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+nav button:hover{color:#fff}
+nav button[aria-selected="true"]{background:var(--pink);color:#fff;box-shadow:0 2px 8px rgba(226,0,75,.4)}
+section[hidden]{display:none}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;margin-top:20px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}h1{font-size:1.4rem}header{padding:18px 20px calc(18px + env(safe-area-inset-top,0px))}}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:0 2px 10px rgba(15,40,64,.06);margin-top:20px}
+.grid .panel{margin-top:0}
+h2{font-size:1.05rem;margin:0 0 14px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid var(--pink);padding-bottom:9px}
+label{display:block;font-size:.85rem;font-weight:700;color:var(--muted);margin:12px 0 5px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:9px;padding:10px 12px;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--pink)}
+textarea{resize:vertical;min-height:70px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check{display:flex;align-items:center;gap:8px;margin-top:14px;font-weight:600;font-size:.92rem}
+.check input{width:auto}
+.hint{font-size:.8rem;color:var(--muted);margin:5px 0 0}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-weight:700;font-size:.92rem;border-radius:10px;padding:11px 18px;border:1.5px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer;text-decoration:none;transition:transform .1s, box-shadow .15s}
+.btn:hover{box-shadow:0 3px 10px rgba(28,57,97,.3)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.wa{background:#1FA855;border-color:#1FA855;color:#fff}
+.btn.small{padding:7px 12px;font-size:.82rem;border-radius:8px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* Le ticket : composant signature, garde son esprit mais version pro */
+.ticket{
+  position:relative;background:linear-gradient(135deg, var(--ink2), var(--ink));
+  border-radius:14px;padding:22px 22px 18px;color:#fff;box-shadow:0 6px 20px rgba(15,40,64,.25);
+}
+.ticket::before,.ticket::after{content:"";position:absolute;top:50%;width:22px;height:22px;background:var(--paper);border-radius:50%;transform:translateY(-50%)}
+.ticket::before{left:-11px}
+.ticket::after{right:-11px}
+.ref{font-size:1.7rem;font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0;color:var(--pink)}
+.route{font-weight:600;color:#C9D4E2;margin:3px 0 14px;font-size:.95rem}
+.msgtype{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.msgtype button{font:inherit;font-size:.82rem;font-weight:700;border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;transition:background .15s}
+.msgtype button[aria-pressed="true"]{background:var(--pink);border-color:var(--pink)}
+.msg{white-space:pre-wrap;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:16px;font-size:.92rem;line-height:1.55;max-height:420px;overflow:auto;color:#EAF0F7}
+.ticket .btn.ghost{border-color:rgba(255,255,255,.4);color:#fff}
+
+/* Liste */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;margin-top:20px}
+.toolbar input{flex:1 1 220px}.toolbar select{flex:0 1 180px;width:auto}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:0 2px 10px rgba(15,40,64,.06)}
+table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:720px}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:.75rem;color:#fff;font-weight:700;background:var(--ink);text-transform:uppercase;letter-spacing:.3px}
+tr:nth-child(even) td{background:rgba(28,57,97,.02)}
+tr:hover td{background:var(--pink-soft)}
+tr:last-child td{border-bottom:0}
+.chip{display:inline-block;font-size:.76rem;font-weight:700;padding:4px 11px;border-radius:999px;white-space:nowrap}
+.s-enreg{background:var(--paper);color:var(--muted);border:1px solid var(--line)}
+.s-transit{background:var(--amber-soft);color:var(--amber)}
+.s-arrive{background:var(--green-soft);color:var(--green)}
+.s-remis{background:var(--ink);color:#fff}
+.paid{color:var(--green);font-weight:700}.unpaid{color:var(--red);font-weight:700}
+td select{padding:6px 9px;font-size:.82rem;width:auto}
+.empty{padding:36px;text-align:center;color:var(--muted)}
+
+/* Bilan */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px;margin-top:20px}
+.stat{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ink);border-radius:12px;padding:16px 18px;box-shadow:0 2px 10px rgba(15,40,64,.06)}
+.stat b{display:block;font-size:1.6rem;font-weight:800;line-height:1.2;color:var(--ink)}
+.stat span{color:var(--muted);font-size:.85rem}
+.stat.alert{border-left-color:var(--red)}
+.stat.alert b{color:var(--red)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 20px;border-radius:10px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+
+/* Facture */
+.facture-overlay{position:fixed;inset:0;background:rgba(15,22,32,.65);z-index:100;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:30px 16px}
+.facture-overlay[hidden]{display:none}
+.facture-box{background:#fff;color:#1A1A1A;max-width:640px;width:100%;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden}
+.facture-actions{display:flex;gap:10px;flex-wrap:wrap;padding:14px 20px;background:var(--paper);border-bottom:1px solid var(--line)}
+.facture-doc{padding:34px 38px}
+.facture-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--ink);padding-bottom:18px;margin-bottom:22px}
+.facture-head h2{border:0;padding:0;margin:0;font-size:1.4rem;color:var(--ink)}
+.facture-head .agence{font-size:.85rem;color:var(--muted);margin-top:4px;line-height:1.5}
+.facture-num{text-align:right}
+.facture-num .ref{font-size:1.3rem;color:var(--pink);margin:0}
+.facture-num .date{font-size:.82rem;color:var(--muted)}
+.facture-table{width:100%;border-collapse:collapse;margin:18px 0}
+.facture-table th{background:var(--ink);color:#fff;text-align:left;padding:9px 12px;font-size:.78rem;text-transform:uppercase}
+.facture-table td{padding:10px 12px;border-bottom:1px solid var(--line);font-size:.92rem}
+.facture-total{display:flex;justify-content:flex-end;margin-top:16px}
+.facture-total table{border-collapse:collapse;min-width:260px}
+.facture-total td{padding:7px 14px;font-size:.92rem}
+.facture-total tr:last-child td{border-top:2px solid var(--ink);font-weight:800;font-size:1.15rem;color:var(--ink)}
+.facture-statut{display:inline-block;margin-top:16px;padding:6px 14px;border-radius:8px;font-weight:700;font-size:.85rem}
+.facture-statut.paye{background:var(--green-soft);color:var(--green)}
+.facture-statut.impaye{background:var(--red-soft);color:var(--red)}
+.facture-foot{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);font-size:.78rem;color:var(--muted);text-align:center}
+@media print{
+  body *{visibility:hidden}
+  .facture-overlay,.facture-overlay *{visibility:visible}
+  .facture-overlay{position:absolute;inset:auto;top:0;left:0;background:#fff;padding:0}
+  .facture-box{box-shadow:none;max-width:100%}
+  .no-print{display:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg class="flag" aria-hidden="true" viewBox="0 0 300 200" width="40" height="27">
+        <rect width="100" height="200" fill="#00853F"/>
+        <rect x="100" width="100" height="200" fill="#FDEF42"/>
+        <rect x="200" width="100" height="200" fill="#E31B23"/>
+        <polygon points="150,70 161,104 197,104 168,125 179,159 150,138 121,159 132,125 103,104 139,104"
+          fill="#00853F" stroke="#00853F" stroke-width="1"/>
+      </svg>
+      <div><h1 id="brandName">SGA Sen GP Agency</h1><p class="sub">Colis France ⇄ Sénégal</p></div>
+    </div>
+    <nav role="tablist" aria-label="Sections">
+      <button role="tab" data-tab="nouveau" aria-selected="true">Nouveau colis</button>
+      <button role="tab" data-tab="colis" aria-selected="false">Colis <span id="countBadge"></span></button>
+      <button role="tab" data-tab="bilan" aria-selected="false">Bilan</button>
+      <button role="tab" data-tab="reglages" aria-selected="false">Réglages</button>
+    </nav>
+  </header>
+
+  <!-- NOUVEAU COLIS -->
+  <section id="tab-nouveau">
+    <div class="grid">
+      <form class="panel" id="form" autocomplete="off">
+        <h2 id="formTitle">Enregistrer un colis</h2>
+        <div class="row">
+          <div><label for="f-client">Nom du client</label><input id="f-client" required placeholder="Aliou Diop"></div>
+          <div><label for="f-phone">Téléphone (WhatsApp)</label><input id="f-phone" inputmode="tel" placeholder="06 12 34 56 78 ou 77 123 45 67"></div>
+        </div>
+        <div class="row">
+          <div><label for="f-from">Ville de départ</label><input id="f-from" list="villes" value="Dakar" placeholder="Dakar"></div>
+          <div><label for="f-to">Ville d'arrivée</label><input id="f-to" list="villes" value="Paris" placeholder="Paris"></div>
+        </div>
+        <datalist id="villes"></datalist>
+        <label for="f-cur">Devise</label>
+        <select id="f-cur"><option value="€">Euro (€)</option><option value="FCFA">Franc CFA (FCFA)</option></select>
+        <p class="hint">Choisie automatiquement selon la ville d'arrivée, modifiable.</p>
+        <label for="f-contenu">Contenu</label>
+        <input id="f-contenu" placeholder="Médicaments traditionnels, vêtements…">
+        <div class="row">
+          <div><label for="f-poids">Poids (kg)</label><input id="f-poids" type="number" min="0" step="0.1" placeholder="3"></div>
+          <div><label for="f-montant">Montant (<span id="curLabel">€</span>)</label><input id="f-montant" type="number" min="0" step="1" placeholder="auto"></div>
+        </div>
+        <p class="hint" id="calcHint">Calculé automatiquement : poids × tarif au kilo (modifiable).</p>
+        <label class="check"><input type="checkbox" id="f-paye"> Déjà payé</label>
+        <label for="f-statut">Statut</label>
+        <select id="f-statut">
+          <option value="enreg">Enregistré</option>
+          <option value="transit">En route</option>
+          <option value="arrive">Arrivé, à récupérer</option>
+          <option value="remis">Remis au client</option>
+        </select>
+        <label for="f-notes">Note interne (non envoyée)</label>
+        <textarea id="f-notes" placeholder="Fragile, à livrer le samedi…"></textarea>
+        <div class="actions">
+          <button class="btn" type="submit" id="saveBtn">Enregistrer le colis</button>
+          <button class="btn ghost" type="button" id="resetBtn">Vider le formulaire</button>
+        </div>
+      </form>
+
+      <div>
+        <div class="ticket" aria-live="polite">
+          <p class="ref" id="tRef">SGA-——</p>
+          <p class="route" id="tRoute">Dakar → Paris</p>
+          <div class="msgtype" role="group" aria-label="Type de message">
+            <button type="button" data-msg="depart" aria-pressed="false">Prise en charge</button>
+            <button type="button" data-msg="arrivee" aria-pressed="true">Arrivée</button>
+            <button type="button" data-msg="relance" aria-pressed="false">Relance</button>
+          </div>
+          <div class="msg" id="msg"></div>
+          <div class="actions">
+            <a class="btn wa" id="waBtn" href="#" target="_blank" rel="noopener">Envoyer sur WhatsApp</a>
+            <button class="btn ghost" type="button" id="copyBtn">Copier le message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LISTE -->
+  <section id="tab-colis" hidden>
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Rechercher un nom, une référence, un numéro…" aria-label="Rechercher">
+      <select id="filter" aria-label="Filtrer">
+        <option value="">Tous les colis</option>
+        <option value="enreg">Enregistrés</option>
+        <option value="transit">En route</option>
+        <option value="arrive">À récupérer</option>
+        <option value="remis">Remis</option>
+        <option value="impaye">Impayés</option>
+      </select>
+      <button class="btn ghost" id="csvBtn" type="button">Copier en CSV (Excel)</button>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Réf.</th><th>Client</th><th>Trajet</th><th>Contenu</th><th>Montant</th><th>Paiement</th><th>Statut</th><th></th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+  </section>
+
+  <!-- BILAN -->
+  <section id="tab-bilan" hidden>
+    <div class="stats" id="stats"></div>
+    <div class="panel">
+      <h2>Par mois</h2>
+      <div class="tablewrap"><table style="min-width:520px">
+        <thead><tr><th>Mois</th><th>Colis</th><th>Kilos</th><th>Encaissé €</th><th>Encaissé FCFA</th><th>Reste à encaisser</th></tr></thead>
+        <tbody id="monthly"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- REGLAGES -->
+  <section id="tab-reglages" hidden>
+    <form class="panel" id="settingsForm" style="max-width:640px">
+      <h2>Informations de l'agence</h2>
+      <p class="hint">Ces informations remplissent automatiquement chaque message.</p>
+      <div class="row">
+        <div><label for="s-nom">Nom de l'agence</label><input id="s-nom"></div>
+        <div><label for="s-tel">Téléphone de l'agence</label><input id="s-tel" inputmode="tel"></div>
+      </div>
+      <label for="s-points">Points de retrait</label>
+      <textarea id="s-points" rows="4"></textarea>
+      <p class="hint">Une ligne par ville, au format « Ville : adresse ». Exemple : Lyon : 12 rue X, 69007 Lyon</p>
+      <div class="row">
+        <div><label for="s-tarifEur">Tarif en euros (€/kg)</label><input id="s-tarifEur" type="number" min="0" step="0.5"></div>
+        <div><label for="s-tarifCfa">Tarif en francs CFA (FCFA/kg)</label><input id="s-tarifCfa" type="number" min="0" step="100"></div>
+      </div>
+      <label for="s-paiement">Moyens de paiement</label><input id="s-paiement">
+      <label class="check"><input type="checkbox" id="s-livreurs"> Proposer la livraison à domicile</label>
+      <div class="actions">
+        <button class="btn" type="submit">Enregistrer les réglages</button>
+        <button class="btn ghost" type="button" id="themeBtn">Changer de thème</button>
+      </div>
+      <p class="hint" style="margin-top:16px">Les colis sont enregistrés sur cet appareil. Pensez à « Copier en CSV » de temps en temps pour garder une sauvegarde.</p>
+    </form>
+  </section>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<div id="factureOverlay" class="facture-overlay" hidden>
+  <div class="facture-box">
+    <div class="facture-actions no-print">
+      <button class="btn ghost small" id="factureFermer" type="button">✕ Fermer</button>
+      <button class="btn small" id="facturePrint" type="button">🖨️ Imprimer / PDF</button>
+      <a class="btn wa small" id="factureWa" href="#" target="_blank" rel="noopener">Envoyer sur WhatsApp</a>
+    </div>
+    <div id="factureContenu"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const STATUTS = {enreg:"Enregistré", transit:"En route", arrive:"À récupérer", remis:"Remis"};
+  const DEFAULTS = {nom:"SGA Sen GP Agency", tel:"", points:"Paris : 9 rue des Gardes, 75018 Paris\nDakar : Soprim Extension, près de la banque BOA", tarifEur:10, tarifCfa:6000, paiement:"Wave ou espèces", livreurs:true};
+
+  function load(key, fallback){ try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; } }
+  function save(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){ toast("Sauvegarde impossible sur cet appareil"); } }
+
+  let settings = Object.assign({}, DEFAULTS, load("sengp_settings", {}));
+  if(!settings.points || settings.adrParis!==undefined){
+    const lines=[]; if(settings.adrParis) lines.push("Paris : "+settings.adrParis); if(settings.adrDakar) lines.push("Dakar : "+settings.adrDakar);
+    if(lines.length) settings.points = lines.join("\n"); if(!settings.points) settings.points = DEFAULTS.points;
+    delete settings.adrParis; delete settings.adrDakar;
+  }
+  let parcels = load("sengp_parcels", []);
+  let editingId = null;
+  let msgType = "arrivee";
+  let montantTouched = false;
+
+  // ---------- utilitaires ----------
+  function toast(t){ const el=$("#toast"); el.textContent=t; el.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove("show"),2200); }
+  const VILLES_SN = ["Dakar","Thiès","Touba","Saint-Louis","Mbour","Saly","Rufisque","Bargny","Diamniadio","Ziguinchor","Kaolack","Diourbel","Louga","Kolda","Tambacounda","Fatick","Kédougou","Matam","Sédhiou","Kaffrine"];
+  const VILLES_FR = ["Paris","Lyon","Marseille","Lille","Bordeaux","Toulouse","Nantes","Strasbourg","Montpellier","Nice","Rouen","Le Havre","Cergy","Reims","Grenoble"];
+  const norm = s => (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+  // compatibilité avec les colis enregistrés dans l'ancienne version (trajet "Dakar>Paris")
+  function origin(p){ return p.from ?? (p.route||"").split(">")[0]; }
+  function dest(p){ return p.to ?? (p.route||"").split(">")[1]; }
+  function currency(p){ return p.cur || (dest(p)==="Paris" ? "€" : "FCFA"); }
+  function guessCur(city){ const c=norm(city); if(VILLES_SN.some(v=>norm(v)===c)) return "FCFA"; if(VILLES_FR.some(v=>norm(v)===c)) return "€"; return null; }
+  function pickups(){ return (settings.points||"").split("\n").map(l=>{ const i=l.indexOf(":"); return i>0 ? {ville:l.slice(0,i).trim(), adr:l.slice(i+1).trim()} : null; }).filter(x=>x&&x.ville&&x.adr); }
+  function pickupAddr(city){ const f = pickups().find(x=>norm(x.ville)===norm(city)); return f ? f.adr : ""; }
+  function fillVilles(){ const all=[...new Set([...pickups().map(x=>x.ville),...VILLES_SN,...VILLES_FR])]; $("#villes").innerHTML=all.map(v=>'<option value="'+esc(v)+'">').join(""); }
+  function fmt(n, cur){ if(n===""||n==null||isNaN(n)) return "—"; const s = Number(n).toLocaleString("fr-FR"); return cur==="€" ? s+" €" : s+" FCFA"; }
+  function newRef(){
+    const d = new Date(); const ymd = String(d.getFullYear()).slice(2)+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+    const sameDay = parcels.filter(p=>p.ref.startsWith("SGA-"+ymd)).length;
+    return "SGA-"+ymd+"-"+String(sameDay+1).padStart(2,"0");
+  }
+  function normPhone(raw){
+    let d = (raw||"").replace(/[^\d+]/g,"");
+    if(d.startsWith("+")) return d.slice(1);
+    if(d.startsWith("00")) return d.slice(2);
+    if(/^0[67]\d{8}$/.test(d)) return "33"+d.slice(1);   // mobile France
+    if(/^7\d{8}$/.test(d)) return "221"+d;               // mobile Sénégal
+    return d;
+  }
+  function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+  // ---------- formulaire ----------
+  function readForm(){
+    return {
+      client: $("#f-client").value.trim(), phone: $("#f-phone").value.trim(), from: $("#f-from").value.trim(), to: $("#f-to").value.trim(), cur: $("#f-cur").value,
+      contenu: $("#f-contenu").value.trim(), poids: $("#f-poids").value, montant: $("#f-montant").value,
+      paye: $("#f-paye").checked, statut: $("#f-statut").value, notes: $("#f-notes").value.trim()
+    };
+  }
+  function autoMontant(){
+    const cur = $("#f-cur").value;
+    $("#curLabel").textContent = cur;
+    const tarif = cur==="€" ? Number(settings.tarifEur) : Number(settings.tarifCfa);
+    $("#calcHint").textContent = "Calculé automatiquement : poids × "+fmt(tarif,cur)+"/kg (modifiable).";
+    if(!montantTouched){
+      const kg = parseFloat($("#f-poids").value);
+      $("#f-montant").value = kg>0 && tarif>0 ? (cur==="€" ? Math.round(kg*tarif) : Math.round(kg*tarif/100)*100) : "";
+    }
+  }
+
+  // ---------- messages ----------
+  function buildMessage(p, ref){
+    const cur = currency(p), to = dest(p)||"destination", from = origin(p)||"—";
+    const adr = pickupAddr(to);
+    const nom = settings.nom || "SGA Sen GP Agency";
+    const bonjour = "Bonjour" + (p.client ? " "+p.client : "") + ",";
+    const montantLigne = p.montant!=="" && p.montant!=null
+      ? "💶 Montant : "+fmt(p.montant,cur)+(p.paye ? " — réglé ✅" : " — à régler")
+      : null;
+    const lignesColis = [
+      "📦 Référence : *"+ref+"*",
+      "🛫 Trajet : "+from+" → "+to,
+      p.contenu ? "📋 Contenu : "+p.contenu : null,
+      p.poids ? "⚖️ Poids : "+String(p.poids).replace(".",",")+" kg" : null,
+      montantLigne
+    ].filter(Boolean).join("\n");
+    const paiement = !p.paye && settings.paiement ? "💳 Paiement : "+settings.paiement+" (merci de prévoir l'appoint)." : null;
+    const appel = settings.tel ? "📞 Merci d'appeler le "+settings.tel+" avant de vous déplacer." : "📞 Merci d'appeler avant de vous déplacer.";
+    const signature = "Cordialement,\nL'équipe "+nom;
+
+    if(msgType==="depart"){
+      return [bonjour, "", nom+" a bien pris en charge votre colis. Il part vers "+to+" avec notre prochain voyage.", "", lignesColis, "",
+        "Nous vous préviendrons dès son arrivée.", "", signature].join("\n");
+    }
+    if(msgType==="relance"){
+      return [bonjour, "", "Petit rappel : votre colis vous attend toujours"+(adr ? " au "+adr : "")+".", "", lignesColis, "",
+        paiement, appel, settings.livreurs ? "🚚 Vous ne pouvez pas vous déplacer ? Nous pouvons vous le livrer." : null, "",
+        signature].filter(l=>l!==null).join("\n");
+    }
+    return [bonjour, "", "Votre colis est bien arrivé à "+to+" ✅", "", lignesColis, "",
+      adr ? "📍 Retrait : "+adr : null,
+      "🪪 Colis enregistré au nom de "+(p.client||"—")+" (merci de donner la référence).",
+      paiement, appel,
+      settings.livreurs ? "🚚 Livraison à domicile possible sur demande." : null, "",
+      signature].filter(l=>l!==null).join("\n");
+  }
+  function currentRef(){ return editingId ? parcels.find(x=>x.id===editingId).ref : newRef(); }
+  function renderPreview(){
+    autoMontant();
+    const p = readForm(), ref = currentRef();
+    $("#tRef").textContent = ref;
+    $("#tRoute").textContent = (origin(p)||"…")+" → "+(dest(p)||"…");
+    const text = buildMessage(p, ref);
+    $("#msg").textContent = text;
+    const num = normPhone(p.phone);
+    $("#waBtn").href = "https://wa.me/"+(num||"")+"?text="+encodeURIComponent(text);
+  }
+
+  function resetForm(){
+    $("#form").reset(); editingId=null; montantTouched=false;
+    $("#formTitle").textContent="Enregistrer un colis"; $("#saveBtn").textContent="Enregistrer le colis";
+    renderPreview();
+  }
+  function fillForm(p){
+    editingId=p.id; montantTouched=true;
+    $("#f-client").value=p.client; $("#f-phone").value=p.phone; $("#f-from").value=origin(p)||""; $("#f-to").value=dest(p)||""; $("#f-cur").value=currency(p); $("#f-contenu").value=p.contenu;
+    $("#f-poids").value=p.poids; $("#f-montant").value=p.montant; $("#f-paye").checked=p.paye; $("#f-statut").value=p.statut; $("#f-notes").value=p.notes||"";
+    $("#formTitle").textContent="Modifier "+p.ref; $("#saveBtn").textContent="Enregistrer les modifications";
+    setMsgType(p.statut==="arrive" ? (p.paye?"arrivee":"arrivee") : p.statut==="remis" ? "arrivee" : "depart");
+    renderPreview();
+  }
+
+  $("#form").addEventListener("input", e=>{ if(e.target.id==="f-montant") montantTouched = e.target.value!==""; if(e.target.id==="f-to"){ const g=guessCur(e.target.value); if(g) $("#f-cur").value=g; } renderPreview(); });
+  $("#form").addEventListener("change", renderPreview);
+  $("#resetBtn").addEventListener("click", resetForm);
+  $("#form").addEventListener("submit", e=>{
+    e.preventDefault();
+    const p = readForm();
+    if(!p.client){ toast("Indiquez le nom du client"); $("#f-client").focus(); return; }
+    if(editingId){
+      const i = parcels.findIndex(x=>x.id===editingId);
+      parcels[i] = Object.assign(parcels[i], p, {majLe:new Date().toISOString()});
+      toast("Colis "+parcels[i].ref+" modifié");
+    }else{
+      const ref = newRef();
+      parcels.unshift(Object.assign({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), ref, date:new Date().toISOString()}, p));
+      toast("Colis "+ref+" enregistré");
+      editingId = parcels[0].id;
+      $("#formTitle").textContent="Modifier "+ref; $("#saveBtn").textContent="Enregistrer les modifications";
+    }
+    save("sengp_parcels", parcels); renderList(); renderStats(); renderPreview();
+  });
+
+  function setMsgType(t){ msgType=t; $$(".msgtype button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.msg===t))); }
+  $$(".msgtype button").forEach(b=>b.addEventListener("click", ()=>{ setMsgType(b.dataset.msg); renderPreview(); }));
+
+  $("#copyBtn").addEventListener("click", async ()=>{
+    const t = $("#msg").textContent;
+    try{ await navigator.clipboard.writeText(t); toast("Message copié"); }
+    catch(e){ const r=document.createRange(); r.selectNodeContents($("#msg")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast("Sélectionné : faites Copier"); }
+  });
+
+  // ---------- liste ----------
+  function renderList(){
+    const q = $("#search").value.toLowerCase().trim(), f = $("#filter").value;
+    const rows = parcels.filter(p=>{
+      if(f==="impaye" && p.paye) return false;
+      if(f && f!=="impaye" && p.statut!==f) return false;
+      if(!q) return true;
+      return [p.ref,p.client,p.phone,p.contenu].join(" ").toLowerCase().includes(q);
+    });
+    $("#countBadge").textContent = parcels.length ? "("+parcels.length+")" : "";
+    if(!rows.length){
+      $("#tbody").innerHTML = '<tr><td colspan="8" class="empty">'+(parcels.length ? "Aucun colis ne correspond à cette recherche." : "Aucun colis pour l'instant. Enregistrez le premier dans « Nouveau colis ».")+'</td></tr>';
+      return;
+    }
+    $("#tbody").innerHTML = rows.map(p=>{
+      const cur = currency(p);
+      return '<tr data-id="'+p.id+'">'+
+        '<td><b>'+esc(p.ref)+'</b><br><span class="hint">'+new Date(p.date).toLocaleDateString("fr-FR")+'</span></td>'+
+        '<td>'+esc(p.client)+'<br><span class="hint">'+esc(p.phone)+'</span></td>'+
+        '<td>'+esc(origin(p))+' → '+esc(dest(p))+'</td>'+
+        '<td>'+esc(p.contenu)+(p.poids?'<br><span class="hint">'+esc(p.poids)+' kg</span>':'')+'</td>'+
+        '<td>'+fmt(p.montant,cur)+'</td>'+
+        '<td><button class="btn small ghost" data-act="pay"><span class="'+(p.paye?'paid':'unpaid')+'">'+(p.paye?'Payé':'Impayé')+'</span></button></td>'+
+        '<td><select data-act="statut" aria-label="Statut">'+Object.entries(STATUTS).map(([k,v])=>'<option value="'+k+'"'+(k===p.statut?' selected':'')+'>'+v+'</option>').join("")+'</select></td>'+
+        '<td style="white-space:nowrap"><button class="btn small" data-act="open">Message</button> <button class="btn small ghost" data-act="facture">Facture</button> <button class="btn small ghost" data-act="del" aria-label="Supprimer '+esc(p.ref)+'">✕</button></td>'+
+      '</tr>';
+    }).join("");
+  }
+  $("#search").addEventListener("input", renderList);
+  $("#filter").addEventListener("change", renderList);
+  $("#tbody").addEventListener("click", e=>{
+    const btn = e.target.closest("button"); if(!btn) return;
+    const id = btn.closest("tr").dataset.id, p = parcels.find(x=>x.id===id); if(!p) return;
+    if(btn.dataset.act==="pay"){ p.paye=!p.paye; save("sengp_parcels",parcels); renderList(); renderStats(); toast(p.ref+(p.paye?" marqué payé":" marqué impayé")); }
+    if(btn.dataset.act==="open"){ fillForm(p); showTab("nouveau"); }
+    if(btn.dataset.act==="facture"){ ouvrirFacture(p); }
+    if(btn.dataset.act==="del" && confirm("Supprimer le colis "+p.ref+" ?")){ parcels=parcels.filter(x=>x.id!==id); save("sengp_parcels",parcels); if(editingId===id) resetForm(); renderList(); renderStats(); toast("Colis supprimé"); }
+  });
+  $("#tbody").addEventListener("change", e=>{
+    if(e.target.dataset.act!=="statut") return;
+    const p = parcels.find(x=>x.id===e.target.closest("tr").dataset.id);
+    p.statut = e.target.value; save("sengp_parcels",parcels); renderStats();
+    if(p.statut==="arrive"){ toast("Arrivé : prévenez le client"); fillForm(p); setMsgType("arrivee"); renderPreview(); showTab("nouveau"); }
+    else toast(p.ref+" : "+STATUTS[p.statut]);
+  });
+  $("#csvBtn").addEventListener("click", async ()=>{
+    const head = ["Référence","Date","Client","Téléphone","Trajet","Contenu","Poids kg","Montant","Devise","Payé","Statut","Note"];
+    const lines = parcels.map(p=>[p.ref,new Date(p.date).toLocaleDateString("fr-FR"),p.client,p.phone,origin(p)+" > "+dest(p),p.contenu,p.poids,p.montant,currency(p),p.paye?"oui":"non",STATUTS[p.statut],p.notes||""]
+      .map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(";"));
+    const csv = [head.join(";")].concat(lines).join("\n");
+    try{ await navigator.clipboard.writeText(csv); toast("Tableau copié : collez-le dans Excel"); }catch(e){ toast("Copie impossible sur ce navigateur"); }
+  });
+
+  // ---------- bilan ----------
+  function sum(arr, f){ return arr.reduce((a,p)=>a+(Number(f(p))||0),0); }
+  function renderStats(){
+    const eur = parcels.filter(p=>currency(p)==="€"), cfa = parcels.filter(p=>currency(p)==="FCFA");
+    const impEur = sum(eur.filter(p=>!p.paye),p=>p.montant), impCfa = sum(cfa.filter(p=>!p.paye),p=>p.montant);
+    const attente = parcels.filter(p=>p.statut==="arrive").length;
+    const vieux = parcels.filter(p=>p.statut==="arrive" && (Date.now()-new Date(p.majLe||p.date))/864e5>7).length;
+    $("#stats").innerHTML = [
+      ['<b>'+parcels.length+'</b><span>colis enregistrés, '+sum(parcels,p=>p.poids).toLocaleString("fr-FR")+' kg au total</span>',''],
+      ['<b>'+fmt(sum(eur.filter(p=>p.paye),p=>p.montant),"€")+'</b><span>encaissé en euros</span>',''],
+      ['<b>'+fmt(sum(cfa.filter(p=>p.paye),p=>p.montant),"FCFA")+'</b><span>encaissé en francs CFA</span>',''],
+      ['<b>'+fmt(impEur,"€")+(impCfa?' · '+fmt(impCfa,"FCFA"):'')+'</b><span>reste à encaisser</span>', (impEur||impCfa)?'alert':''],
+      ['<b>'+attente+'</b><span>colis arrivés en attente de retrait'+(vieux?', dont '+vieux+' depuis plus de 7 jours':'')+'</span>', vieux?'alert':'']
+    ].map(([h,c])=>'<div class="stat '+c+'">'+h+'</div>').join("");
+
+    const byMonth = {};
+    parcels.forEach(p=>{
+      const k = p.date.slice(0,7);
+      (byMonth[k] ||= {n:0,kg:0,eur:0,cfa:0,resteE:0,resteC:0});
+      const m = byMonth[k], v = Number(p.montant)||0, isEur = currency(p)==="€";
+      m.n++; m.kg += Number(p.poids)||0;
+      if(p.paye){ isEur ? m.eur+=v : m.cfa+=v; } else { isEur ? m.resteE+=v : m.resteC+=v; }
+    });
+    const keys = Object.keys(byMonth).sort().reverse();
+    $("#monthly").innerHTML = keys.length ? keys.map(k=>{
+      const m = byMonth[k], [y,mo] = k.split("-");
+      const label = new Date(y, mo-1, 1).toLocaleDateString("fr-FR",{month:"long",year:"numeric"});
+      const reste = [m.resteE?fmt(m.resteE,"€"):"", m.resteC?fmt(m.resteC,"FCFA"):""].filter(Boolean).join(" · ") || "—";
+      return '<tr><td>'+label+'</td><td>'+m.n+'</td><td>'+m.kg.toLocaleString("fr-FR")+'</td><td>'+fmt(m.eur,"€")+'</td><td>'+fmt(m.cfa,"FCFA")+'</td><td>'+reste+'</td></tr>';
+    }).join("") : '<tr><td colspan="6" class="empty">Le bilan se remplira dès le premier colis.</td></tr>';
+  }
+
+  // ---------- réglages ----------
+  const S = {nom:"#s-nom",tel:"#s-tel",points:"#s-points",tarifEur:"#s-tarifEur",tarifCfa:"#s-tarifCfa",paiement:"#s-paiement"};
+  function fillSettings(){ fillVilles(); Object.entries(S).forEach(([k,s])=>$(s).value=settings[k]??""); $("#s-livreurs").checked=!!settings.livreurs; $("#brandName").textContent=settings.nom||"SGA Sen GP Agency"; }
+  $("#settingsForm").addEventListener("submit", e=>{
+    e.preventDefault();
+    Object.entries(S).forEach(([k,s])=>settings[k]=$(s).value.trim());
+    settings.livreurs = $("#s-livreurs").checked;
+    save("sengp_settings", settings); fillSettings(); montantTouched = !!editingId; renderPreview(); toast("Réglages enregistrés");
+  });
+  $("#themeBtn").addEventListener("click", ()=>{
+    const r=document.documentElement, dark = r.dataset.theme ? r.dataset.theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    r.dataset.theme = dark ? "light" : "dark"; save("sengp_theme", r.dataset.theme);
+  });
+  const th = load("sengp_theme", null); if(th) document.documentElement.dataset.theme = th;
+
+  // ---------- onglets ----------
+  function showTab(name){
+    $$("nav button").forEach(b=>b.setAttribute("aria-selected", String(b.dataset.tab===name)));
+    $$("section[id^=tab-]").forEach(s=>s.hidden = s.id!=="tab-"+name);
+    window.scrollTo(0,0);
+  }
+  $$("nav button").forEach(b=>b.addEventListener("click", ()=>showTab(b.dataset.tab)));
+
+  // ---------- facture ----------
+  function ouvrirFacture(p){
+    const cur = currency(p), ref = p.ref;
+    const nom = settings.nom || "SGA Sen GP Agency";
+    const dateFacture = new Date().toLocaleDateString("fr-FR");
+    const dateColis = new Date(p.date).toLocaleDateString("fr-FR");
+    const montant = p.montant!==""&&p.montant!=null ? Number(p.montant) : 0;
+    const html = '<div class="facture-doc" id="factureDoc">'+
+      '<div class="facture-head">'+
+        '<div><h2>'+esc(nom)+'</h2><div class="agence">'+
+          (settings.tel?'Tél. '+esc(settings.tel)+'<br>':'')+
+          esc((settings.points||'').split("\n")[0]||'')+
+        '</div></div>'+
+        '<div class="facture-num"><p class="ref">FACTURE '+esc(ref)+'</p><div class="date">Émise le '+dateFacture+'</div></div>'+
+      '</div>'+
+      '<p><b>Client :</b> '+esc(p.client||'—')+(p.phone?' — '+esc(p.phone):'')+'</p>'+
+      '<table class="facture-table"><thead><tr><th>Description</th><th>Trajet</th><th>Poids</th><th>Date colis</th></tr></thead><tbody>'+
+      '<tr><td>'+esc(p.contenu||'Colis')+'</td><td>'+esc(origin(p)||'—')+' → '+esc(dest(p)||'—')+'</td><td>'+(p.poids?esc(p.poids)+' kg':'—')+'</td><td>'+dateColis+'</td></tr>'+
+      '</tbody></table>'+
+      '<div class="facture-total"><table>'+
+        '<tr><td>Montant</td><td>'+fmt(montant,cur)+'</td></tr>'+
+        '<tr><td>Total</td><td>'+fmt(montant,cur)+'</td></tr>'+
+      '</table></div>'+
+      '<span class="facture-statut '+(p.paye?'paye':'impaye')+'">'+(p.paye?'✅ Payé':'⏳ Impayé — '+fmt(montant,cur)+' restant')+'</span>'+
+      '<div class="facture-foot">'+esc(nom)+(settings.tel?' · '+esc(settings.tel):'')+' · Merci de votre confiance</div>'+
+    '</div>';
+    $("#factureContenu").innerHTML = html;
+    $("#factureOverlay").hidden = false;
+
+    const texteWa = "🧾 *FACTURE "+ref+"*\n"+
+      nom+"\n\n"+
+      "Client : "+(p.client||"—")+"\n"+
+      "Trajet : "+(origin(p)||"—")+" → "+(dest(p)||"—")+"\n"+
+      (p.contenu ? "Contenu : "+p.contenu+"\n" : "")+
+      (p.poids ? "Poids : "+p.poids+" kg\n" : "")+
+      "Montant : "+fmt(montant,cur)+(p.paye?" — payé ✅":" — à régler")+"\n\n"+
+      "Merci de votre confiance,\n"+nom;
+    const num = normPhone(p.phone);
+    $("#factureWa").href = "https://wa.me/"+(num||"")+"?text="+encodeURIComponent(texteWa);
+  }
+  $("#factureFermer").addEventListener("click", ()=>{ $("#factureOverlay").hidden = true; });
+  $("#factureOverlay").addEventListener("click", e=>{ if(e.target.id==="factureOverlay") $("#factureOverlay").hidden = true; });
+  $("#facturePrint").addEventListener("click", ()=> window.print());
+
+  fillSettings(); renderList(); renderStats(); renderPreview();
+})();
+</script>
+</body>
+</html>
