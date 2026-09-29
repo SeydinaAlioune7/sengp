@@ -334,10 +334,18 @@ td select{padding:6px 9px;font-size:.82rem;width:auto}
   function fillVilles(){ const all=[...new Set([...pickups().map(x=>x.ville),...VILLES_SN,...VILLES_FR])]; $("#villes").innerHTML=all.map(v=>'<option value="'+esc(v)+'">').join(""); }
   function fmt(n, cur){ if(n===""||n==null||isNaN(n)) return "—"; const s = Number(n).toLocaleString("fr-FR"); return cur==="€" ? s+" €" : s+" FCFA"; }
   function newRef(){
-    const d = new Date(); const ymd = String(d.getFullYear()).slice(2)+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
-    const sameDay = parcels.filter(p=>p.ref.startsWith("SGA-"+ymd)).length;
-    return "SGA-"+ymd+"-"+String(sameDay+1).padStart(2,"0");
-  }
+      const d = new Date(); const ymd = String(d.getFullYear()).slice(2)+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+      const sameDay = parcels.filter(p=>p.ref && p.ref.startsWith("SGA-"+ymd));
+      let maxNum = 0;
+      sameDay.forEach(p => {
+          const parts = p.ref.split("-");
+          if(parts.length === 3) {
+              const num = parseInt(parts[2], 10);
+              if(!isNaN(num) && num > maxNum) maxNum = num;
+          }
+      });
+      return "SGA-"+ymd+"-"+String(maxNum+1).padStart(2,"0");
+    }
   function normPhone(raw){
     let d = (raw||"").replace(/[^\d+]/g,"");
     if(d.startsWith("+")) return d.slice(1);
@@ -416,15 +424,17 @@ td select{padding:6px 9px;font-size:.82rem;width:auto}
   }
 
   function resetForm(){
-    $("#form").reset(); editingId=null; montantTouched=false;
-    $("#formTitle").textContent="Enregistrer un colis"; $("#saveBtn").textContent="Enregistrer le colis";
-    renderPreview();
-  }
+      $("#form").reset(); editingId=null; montantTouched=false;
+      $("#formTitle").textContent="Enregistrer un colis"; $("#saveBtn").textContent="Enregistrer le colis";
+      const btn = $("#resetBtn"); if(btn) { btn.textContent="Vider le formulaire"; btn.style.background=""; btn.style.color=""; btn.style.border=""; }
+      renderPreview();
+    }
   function fillForm(p){
     editingId=p.id; montantTouched=true;
     $("#f-client").value=p.client; $("#f-phone").value=p.phone; $("#f-from").value=origin(p)||""; $("#f-to").value=dest(p)||""; $("#f-cur").value=currency(p); $("#f-contenu").value=p.contenu;
     $("#f-poids").value=p.poids; $("#f-montant").value=p.montant; $("#f-paye").checked=p.paye; $("#f-statut").value=p.statut; $("#f-notes").value=p.notes||"";
-    $("#formTitle").textContent="Modifier "+p.ref; $("#saveBtn").textContent="Enregistrer les modifications";
+    $("#formTitle").textContent="Modifier "+p.ref; $("#saveBtn").textContent="💾 Mettre à jour";
+      const btn = $("#resetBtn"); if(btn) { btn.textContent="➕ NOUVEAU COLIS"; btn.style.background="var(--pink)"; btn.style.color="white"; btn.style.border="none"; }
     setMsgType(p.statut==="arrive" ? (p.paye?"arrivee":"arrivee") : p.statut==="remis" ? "arrivee" : "depart");
     renderPreview();
   }
@@ -445,7 +455,8 @@ td select{padding:6px 9px;font-size:.82rem;width:auto}
       parcels.unshift(Object.assign({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), ref, date:new Date().toISOString()}, p));
       toast("Colis "+ref+" enregistré");
       editingId = parcels[0].id;
-      $("#formTitle").textContent="Modifier "+ref; $("#saveBtn").textContent="Enregistrer les modifications";
+      $("#formTitle").textContent="Modifier "+ref; $("#saveBtn").textContent="💾 Mettre à jour";
+        const btn = $("#resetBtn"); if(btn) { btn.textContent="➕ NOUVEAU COLIS"; btn.style.background="var(--pink)"; btn.style.color="white"; btn.style.border="none"; }
     }
     save("sengp_parcels", parcels); renderList(); renderStats(); renderPreview();
   });
