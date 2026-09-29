@@ -581,45 +581,93 @@ td select{padding:6px 9px;font-size:.82rem;width:auto}
 
   // ---------- facture ----------
   function ouvrirFacture(p){
-    const cur = currency(p), ref = p.ref;
-    const nom = settings.nom || "SGA Sen GP Agency";
-    const dateFacture = new Date().toLocaleDateString("fr-FR");
-    const dateColis = new Date(p.date).toLocaleDateString("fr-FR");
-    const montant = p.montant!==""&&p.montant!=null ? Number(p.montant) : 0;
-    const html = '<div class="facture-doc" id="factureDoc">'+
-      '<div class="facture-head">'+
-        '<div><h2>'+esc(nom)+'</h2><div class="agence">'+
-          (settings.tel?'Tél. '+esc(settings.tel)+'<br>':'')+
-          esc((settings.points||'').split("\n")[0]||'')+
-        '</div></div>'+
-        '<div class="facture-num"><p class="ref">FACTURE '+esc(ref)+'</p><div class="date">Émise le '+dateFacture+'</div></div>'+
-      '</div>'+
-      '<p><b>Client :</b> '+esc(p.client||'—')+(p.phone?' — '+esc(p.phone):'')+'</p>'+
-      '<table class="facture-table"><thead><tr><th>Description</th><th>Trajet</th><th>Poids</th><th>Date colis</th></tr></thead><tbody>'+
-      '<tr><td>'+esc(p.contenu||'Colis')+'</td><td>'+esc(origin(p)||'—')+' → '+esc(dest(p)||'—')+'</td><td>'+(p.poids?esc(p.poids)+' kg':'—')+'</td><td>'+dateColis+'</td></tr>'+
-      '</tbody></table>'+
-      '<div class="facture-total"><table>'+
-        '<tr><td>Montant</td><td>'+fmt(montant,cur)+'</td></tr>'+
-        '<tr><td>Total</td><td>'+fmt(montant,cur)+'</td></tr>'+
-      '</table></div>'+
-      '<span class="facture-statut '+(p.paye?'paye':'impaye')+'">'+(p.paye?'✅ Payé':'⏳ Impayé — '+fmt(montant,cur)+' restant')+'</span>'+
-      '<div class="facture-foot">'+esc(nom)+(settings.tel?' · '+esc(settings.tel):'')+' · Merci de votre confiance</div>'+
-    '</div>';
-    $("#factureContenu").innerHTML = html;
-    $("#factureOverlay").hidden = false;
+      const cur = currency(p), ref = p.ref;
+      const nom = settings.nom || "SGA Sen GP Agency";
+      const dateFacture = new Date().toLocaleDateString("fr-FR");
+      const dateColis = new Date(p.date).toLocaleDateString("fr-FR");
+      const montant = p.montant!==""&&p.montant!=null ? Number(p.montant) : 0;
+      
+      const html = '<div class="facture-doc" id="factureDoc" style="font-family: Arial, sans-serif; color: #333; padding: 20px;">'+
+        '<div class="facture-head" style="border-bottom: 2px solid #0056b3; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-start;">'+
+          '<div style="text-align: left;">'+
+             '<h2 style="color: #0056b3; margin: 0; font-size: 1.8rem;">'+esc(nom)+'</h2>'+
+             '<p style="margin: 5px 0 0; color: #555; font-size: 0.9rem;">'+(settings.tel?'Tél : '+esc(settings.tel)+'<br>':'')+
+             esc((settings.points||'').split("\n")[0]||'')+'</p>'+
+          '</div>'+
+          '<div style="text-align: right;">'+
+             '<h3 style="margin: 0; color: #333; font-size: 1.4rem;">FACTURE</h3>'+
+             '<p style="margin: 5px 0 0; font-size: 1rem; font-weight: bold; color: #d32f2f;">N° Réf : '+esc(ref)+'</p>'+
+             '<p style="margin: 5px 0 0; font-size: 0.9rem; color: #777;">Date : '+dateFacture+'</p>'+
+          '</div>'+
+        '</div>'+
+        '<div style="margin-bottom: 25px; padding: 15px; background: #f9f9f9; border-left: 4px solid #0056b3; border-radius: 4px;">'+
+          '<p style="margin: 0; font-size: 1.1rem;"><b>Facturé à :</b> '+esc(p.client||'Client')+(p.phone?' - '+esc(p.phone):'')+'</p>'+
+        '</div>'+
+        '<table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 0.95rem;">'+
+          '<thead>'+
+            '<tr style="background-color: #0056b3; color: white;">'+
+              '<th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Description de l\'envoi</th>'+
+              '<th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Trajet</th>'+
+              '<th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Poids</th>'+
+              '<th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Date de dépôt</th>'+
+            '</tr>'+
+          '</thead>'+
+          '<tbody>'+
+            '<tr>'+
+              '<td style="padding: 10px; border: 1px solid #ddd;">'+esc(p.contenu||'Marchandises diverses')+'</td>'+
+              '<td style="padding: 10px; border: 1px solid #ddd;">'+esc(origin(p)||'Départ')+' ➔ '+esc(dest(p)||'Arrivée')+'</td>'+
+              '<td style="padding: 10px; border: 1px solid #ddd; text-align: center;">'+(p.poids?esc(p.poids)+' kg':'-')+'</td>'+
+              '<td style="padding: 10px; border: 1px solid #ddd; text-align: center;">'+dateColis+'</td>'+
+            '</tr>'+
+          '</tbody>'+
+        '</table>'+
+        '<div style="display: flex; justify-content: flex-end; margin-bottom: 30px;">'+
+          '<div style="width: 300px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden;">'+
+            '<div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd;">'+
+              '<b>Montant HT</b><span>'+fmt(montant,cur)+'</span>'+
+            '</div>'+
+            '<div style="display: flex; justify-content: space-between; padding: 10px; background: #0056b3; color: white; font-size: 1.1rem; font-weight: bold;">'+
+              '<span>TOTAL TTC</span><span>'+fmt(montant,cur)+'</span>'+
+            '</div>'+
+          '</div>'+
+        '</div>'+
+        '<div style="text-align: center; margin-bottom: 20px;">'+
+          '<span style="display: inline-block; padding: 8px 20px; font-weight: bold; border-radius: 20px; font-size: 1rem; '+
+          (p.paye?'background: #e8f5e9; color: #2e7d32; border: 2px solid #2e7d32;">✅ PAYÉ DANS SA TOTALITÉ':'background: #ffebee; color: #c62828; border: 2px solid #c62828;">❌ EN ATTENTE DE PAIEMENT : '+fmt(montant,cur))+'</span>'+
+        '</div>'+
+        '<div style="text-align: center; color: #777; font-size: 0.85rem; border-top: 1px solid #ddd; padding-top: 15px;">'+
+          '<b>Message de votre agent :</b> Nous vous remercions pour votre confiance. Votre expédition est traitée avec le plus grand soin.<br>'+
+          esc(nom)+(settings.tel?' - '+esc(settings.tel):'')+''+
+        '</div>'+
+      '</div>';
+      
+      $("#factureContenu").innerHTML = html;
+      $("#factureOverlay").hidden = false;
+  
+      const texteWa = `*${nom}* 📦
+L'excellence au service de vos envois
 
-    const texteWa = "🧾 *FACTURE "+ref+"*\n"+
-      nom+"\n\n"+
-      "Client : "+(p.client||"—")+"\n"+
-      "Trajet : "+(origin(p)||"—")+" → "+(dest(p)||"—")+"\n"+
-      (p.contenu ? "Contenu : "+p.contenu+"\n" : "")+
-      (p.poids ? "Poids : "+p.poids+" kg\n" : "")+
-      "Montant : "+fmt(montant,cur)+(p.paye?" — payé ✅":" — à régler")+"\n\n"+
-      "Merci de votre confiance,\n"+nom;
-    const num = normPhone(p.phone);
-    $("#factureWa").href = "https://wa.me/"+(num||"")+"?text="+encodeURIComponent(texteWa);
-  }
-  $("#factureFermer").addEventListener("click", ()=>{ $("#factureOverlay").hidden = true; });
+*FACTURE N° ${ref}*
+Émise le ${dateFacture}
+
+👤 *Client :* ${p.client || "Non renseigné"}
+📞 *Contact :* ${p.phone || "Non renseigné"}
+✈️ *Trajet :* ${origin(p) || "Départ"} ➔ ${dest(p) || "Arrivée"}
+📦 *Nature de l'envoi :* ${p.contenu || "Marchandises diverses"}
+⚖️ *Poids :* ${p.poids ? p.poids + " kg" : "Non spécifié"}
+
+💰 *MONTANT TOTAL :* ${fmt(montant, cur)}
+💳 *STATUT DU PAIEMENT :* ${p.paye ? "✅ PAYÉ" : "❌ EN ATTENTE"}
+
+📝 *Message de votre agent :*
+Nous vous remercions de votre confiance. Votre colis est pris en charge avec le plus grand soin par notre agence. Pour toute question, n'hésitez pas à nous contacter !
+
+*Direction ${nom}*`;
+
+      const num = normPhone(p.phone);
+      $("#factureWa").href = "https://wa.me/"+(num||"")+"?text="+encodeURIComponent(texteWa);
+    }
+    $("#factureFermer").addEventListener("click", ()=>{ $("#factureOverlay").hidden = true; });
   $("#factureOverlay").addEventListener("click", e=>{ if(e.target.id==="factureOverlay") $("#factureOverlay").hidden = true; });
   $("#facturePrint").addEventListener("click", ()=> window.print());
 
