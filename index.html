@@ -454,11 +454,12 @@ td select{padding:6px 9px;font-size:.82rem;width:auto}
       const ref = newRef();
       parcels.unshift(Object.assign({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), ref, date:new Date().toISOString()}, p));
       toast("Colis "+ref+" enregistré");
-      editingId = parcels[0].id;
-      $("#formTitle").textContent="Modifier "+ref; $("#saveBtn").textContent="💾 Mettre à jour";
-        const btn = $("#resetBtn"); if(btn) { btn.textContent="➕ NOUVEAU COLIS"; btn.style.background="var(--pink)"; btn.style.color="white"; btn.style.border="none"; }
-    }
-    save("sengp_parcels", parcels); renderList(); renderStats(); renderPreview();
+        // Smart reset for rapid entry (keep origin and destination)
+        const keptFrom = $("#f-from").value, keptTo = $("#f-to").value, keptCur = $("#f-cur").value;
+        resetForm();
+        $("#f-from").value = keptFrom; $("#f-to").value = keptTo; $("#f-cur").value = keptCur;
+      }
+      save("sengp_parcels", parcels); renderList(); renderStats(); renderPreview();
   });
 
   function setMsgType(t){ msgType=t; $$(".msgtype button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.msg===t))); }
