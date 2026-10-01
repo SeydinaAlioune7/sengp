@@ -333,19 +333,36 @@ td select{padding:6px 9px;font-size:.82rem;width:auto}
   function pickupAddr(city){ const f = pickups().find(x=>norm(x.ville)===norm(city)); return f ? f.adr : ""; }
   function fillVilles(){ const all=[...new Set([...pickups().map(x=>x.ville),...VILLES_SN,...VILLES_FR])]; $("#villes").innerHTML=all.map(v=>'<option value="'+esc(v)+'">').join(""); }
   function fmt(n, cur){ if(n===""||n==null||isNaN(n)) return "—"; const s = Number(n).toLocaleString("fr-FR"); return cur==="€" ? s+" €" : s+" FCFA"; }
-  function newRef(){
-      const d = new Date(); const ymd = String(d.getFullYear()).slice(2)+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
-      const sameDay = parcels.filter(p=>p.ref && p.ref.startsWith("SGA-"+ymd));
-      let maxNum = 0;
-      sameDay.forEach(p => {
-          const parts = p.ref.split("-");
-          if(parts.length === 3) {
-              const num = parseInt(parts[2], 10);
-              if(!isNaN(num) && num > maxNum) maxNum = num;
-          }
-      });
-      return "SGA-"+ymd+"-"+String(maxNum+1).padStart(2,"0");
+  function findExistingClientRef(clientName, clientPhone){
+    const pPhone = normPhone(clientPhone);
+    const pName = norm(clientName);
+    if(pPhone && pPhone.length >= 6){
+      const found = parcels.find(x => x.ref && normPhone(x.phone) === pPhone);
+      if(found) return found.ref;
     }
+    if(pName && pName.length >= 3){
+      const found = parcels.find(x => x.ref && norm(x.client) === pName);
+      if(found) return found.ref;
+    }
+    return null;
+  }
+
+  function newRef(clientName, clientPhone){
+    const existing = findExistingClientRef(clientName, clientPhone);
+    if(existing) return existing;
+
+    const d = new Date(); const ymd = String(d.getFullYear()).slice(2)+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+    const sameDay = parcels.filter(p=>p.ref && p.ref.startsWith("SGA-"+ymd));
+    let maxNum = 0;
+    sameDay.forEach(p => {
+        const parts = p.ref.split("-");
+        if(parts.length === 3) {
+            const num = parseInt(parts[2], 10);
+            if(!isNaN(num) && num > maxNum) maxNum = num;
+        }
+    });
+    return "SGA-"+ymd+"-"+String(maxNum+1).padStart(2,"0");
+  }
   function normPhone(raw){
     let d = (raw||"").replace(/[^\d+]/g,"");
     if(d.startsWith("+")) return d.slice(1);
@@ -411,7 +428,11 @@ td select{padding:6px 9px;font-size:.82rem;width:auto}
       settings.livreurs ? "🚚 Livraison à domicile possible sur demande." : null, "",
       signature].filter(l=>l!==null).join("\n");
   }
-  function currentRef(){ return editingId ? parcels.find(x=>x.id===editingId).ref : newRef(); }
+  function currentRef(){ 
+    if(editingId){ const f = parcels.find(x=>x.id===editingId); if(f) return f.ref; }
+    const p = readForm();
+    return newRef(p.client, p.phone);
+  }
   function renderPreview(){
     autoMontant();
     const p = readForm(), ref = currentRef();
@@ -451,7 +472,7 @@ td select{padding:6px 9px;font-size:.82rem;width:auto}
       parcels[i] = Object.assign(parcels[i], p, {majLe:new Date().toISOString()});
       toast("Colis "+parcels[i].ref+" modifié");
     }else{
-      const ref = newRef();
+      const ref = newRef(p.client, p.phone);
       parcels.unshift(Object.assign({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), ref, date:new Date().toISOString()}, p));
       toast("Colis "+ref+" enregistré");
         // Smart reset for rapid entry (keep origin and destination)
